@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBD Phương Trang 🎉</title>
+
+<style>
+body{
+  margin:0;
+  background:#0a0010;
+  color:#fff;
+  font-family:sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* card */
+.box{
+  background:#1a0030;
+  padding:24px;
+  border-radius:20px;
+  text-align:center;
+  width:320px;
+  box-shadow:0 0 30px #ff2d7866;
+}
+
+h1{
+  margin:0 0 10px;
+}
+
+#money{
+  font-size:44px;
+  color:#ff2d78;
+  margin:12px 0;
+}
+
+button{
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#ff2d78;
+  color:#fff;
+  width:100%;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* popup */
+#popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+
+.popup-box{
+  background:#1a0030;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* credit */
+.credit{
+  margin-top:15px;
+  font-size:12px;
+  color:#888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>🎉 HBD Phương Trang 🎉</h1>
+
+  <div id="money">???</div>
+
+  <button onclick="roll()">🎰 Quay lì xì</button>
+
+  <button onclick="toggleMusic()" style="background:#00f5ff;">
+    🎵 Bật/Tắt nhạc
+  </button>
+
+  <div class="credit">✨ Made by Nguyên Hoàng ✨</div>
+</div>
+
+<!-- popup -->
+<div id="popup">
+  <div class="popup-box">
+    <h2 id="popup-money"></h2>
+    <button onclick="closePop()">OK 😆</button>
+  </div>
+</div>
+
+<!-- nhạc -->
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+let currentMoney = 0;
+const music = document.getElementById("music");
+
+// quay tiền
+function roll(){
+  currentMoney = Math.floor(Math.random()*(100000-30000+1))+30000;
+
+  document.getElementById("money").innerText =
+    currentMoney.toLocaleString()+"đ 💸";
+
+  document.getElementById("popup-money").innerText =
+    "🎉 "+currentMoney.toLocaleString()+"đ 🎉";
+
+  document.getElementById("popup").style.display="flex";
+}
+
+// popup
+function closePop(){
+  document.getElementById("popup").style.display="none";
+}
+
+// nhạc
+function toggleMusic(){
+  if(music.paused){
+    music.play();
+  } else {
+    music.pause();
+  }
+}
+</script>
+
+</body>
+</html>
