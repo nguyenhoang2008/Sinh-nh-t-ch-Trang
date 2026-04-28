@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBD Phương Trang 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Righteous&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #ff2d78; --cyan: #00f5ff; --yellow: #ffe600;
+  --purple: #bf00ff; --green: #00ff88; --orange: #ff7a00;
+  --bg: #0a0010;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden; cursor: none;
+}
+
+#cursor {
+  position: fixed; pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%); font-size: 20px;
+  animation: cursorSpin 2s linear infinite;
+}
+@keyframes cursorSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, #ff2d7822 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, #00f5ff18 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, #bf00ff18 0%, transparent 50%);
+  animation: bgShift 6s ease-in-out infinite alternate;
+}
+@keyframes bgShift { 100% { filter: hue-rotate(60deg); } }
+
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(#ff2d7808 1px, transparent 1px),
+    linear-gradient(90deg, #ff2d7808 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove { to { background-position: 0 40px; } }
+
+#rain { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.raindrop {
+  position: absolute; top: -40px; animation: rainFall linear infinite; opacity: 0;
+}
+@keyframes rainFall {
+  0%   { transform: translateY(0) rotate(0); opacity: 0; }
+  10%  { opacity: 1; } 90% { opacity: .7; }
+  100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+}
+
+.card-wrap {
+  position: relative; z-index: 10; width: min(420px, 94vw);
+  animation: popIn .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn {
+  from { opacity:0; transform: scale(.5) rotate(-5deg); }
+  to   { opacity:1; transform: none; }
+}
+
+.card {
+  background: #0f0020; border-radius: 28px; overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 0 2px #ff2d78, 0 0 30px #ff2d7866, 0 0 60px #bf00ff44, 0 30px 80px #00000099;
+  animation: borderGlow 3s ease-in-out infinite alternate;
+}
+@keyframes borderGlow {
+  0%   { box-shadow: 0 0 0 2px #ff2d78, 0 0 30px #ff2d7866, 0 0 60px #bf00ff44, 0 30px 80px #00000099; }
+  33%  { box-shadow: 0 0 0 2px #00f5ff, 0 0 30px #00f5ff66, 0 0 60px #ff2d7844, 0 30px 80px #00000099; }
+  66%  { box-shadow: 0 0 0 2px #ffe600, 0 0 30px #ffe60066, 0 0 60px #00f5ff44, 0 30px 80px #00000099; }
+  100% { box-shadow: 0 0 0 2px #bf00ff, 0 0 30px #bf00ff66, 0 0 60px #ffe60044, 0 30px 80px #00000099; }
+}
+
+.card-header {
+  background: linear-gradient(135deg, #ff2d78, #bf00ff, #00f5ff);
+  background-size: 300% 300%;
+  animation: gradShift 4s ease infinite;
+  padding: 22px 24px 20px; text-align: center; position: relative; overflow: hidden;
+}
+@keyframes gradShift {
+  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+}
+.card-header::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,.04) 4px,rgba(255,255,255,.04) 8px);
+}
+
+.hbd-tag {
+  display: inline-block;
+  background: rgba(0,0,0,.4); border: 1.5px solid rgba(255,255,255,.5);
+  border-radius: 100px; padding: 4px 14px;
+  font-family: 'Righteous', cursive; font-size: 10px; letter-spacing: 4px;
+  color: #fff; text-transform: uppercase; margin-bottom: 10px;
+  animation: fadeUp .6s .3s both;
+}
+.main-name {
+  font-family: 'Boogaloo', cursive; font-size: clamp(44px,12vw,60px);
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,255,255,.8), 3px 3px 0 rgba(0,0,0,.4);
+  line-height: 1; margin-bottom: 4px;
+  animation: fadeUp .6s .4s both, nameWiggle 2s 1.5s ease-in-out infinite;
+  position: relative; z-index: 1;
+}
+@keyframes nameWiggle { 0%,100%{transform:rotate(-1deg)} 50%{transform:rotate(1deg)} }
+.cake-row { font-size: 28px; animation: fadeUp .6s .5s both; filter: drop-shadow(0 0 8px #fff); position: relative; z-index: 1; }
+
+.card-body { padding: 22px 24px; }
+
+.date-pill { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:18px; animation: fadeUp .6s .6s both; }
+.date-pill-inner {
+  background: linear-gradient(90deg,#ff2d78,#ff7a00); border-radius:100px; padding:6px 20px;
+  font-family:'Righteous',cursive; font-size:13px; letter-spacing:2px; color:#fff;
+  box-shadow:0 0 20px #ff2d7888; animation: pillPulse 2s ease-in-out infinite;
+}
+@keyframes pillPulse { 0%,100%{box-shadow:0 0 20px #ff2d7888} 50%{box-shadow:0 0 40px #ff2d78cc} }
+
+.stats-row { display:flex; gap:10px; margin-bottom:18px; animation: fadeUp .6s .65s both; }
+.stat-box {
+  flex:1; text-align:center; background:#1a0030; border-radius:14px;
+  padding:12px 8px; border:1.5px solid; position:relative; overflow:hidden;
+}
+.stat-box:nth-child(1){border-color:#ff2d7866} .stat-box:nth-child(2){border-color:#00f5ff66} .stat-box:nth-child(3){border-color:#ffe60066}
+.stat-icon { font-size:22px; display:block; margin-bottom:4px; }
+.stat-num { font-family:'Boogaloo',cursive; font-size:26px; display:block; line-height:1; }
+.stat-box:nth-child(1) .stat-num{color:#ff2d78;text-shadow:0 0 10px #ff2d78}
+.stat-box:nth-child(2) .stat-num{color:#00f5ff;text-shadow:0 0 10px #00f5ff}
+.stat-box:nth-child(3) .stat-num{color:#ffe600;text-shadow:0 0 10px #ffe600}
+.stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:#888; font-family:'Righteous',cursive; }
+
+.wish-box {
+  background:#1a0030; border-radius:16px; padding:16px 18px; margin-bottom:18px;
+  border:1.5px solid #bf00ff44; animation: fadeUp .6s .7s both; position:relative;
+}
+.wish-box::before { content:'💬'; position:absolute; top:-12px; left:16px; font-size:20px; filter:drop-shadow(0 0 6px #bf00ff); }
+.wish-text { font-size:14px; color:#d0b0ff; line-height:1.85; font-weight:700; }
+.wish-text .hi{color:#ff2d78}
+.wish-text .glow-c{color:#00f5ff;text-shadow:0 0 8px #00f5ff88}
+.wish-text .glow-y{color:#ffe600;text-shadow:0 0 8px #ffe60088}
+.wish-text .glow-g{color:#00ff88;text-shadow:0 0 8px #00ff8888}
+
+/* ── SLOT MACHINE ── */
+.spin-section {
+  background: #fff; border-radius: 20px; padding: 18px;
+  margin-bottom: 4px; animation: fadeUp .6s .85s both;
+  position: relative; overflow: hidden;
+}
+.spin-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg,#ff2d7812,#00f5ff12,#ffe60012);
+  animation: gradShift 4s ease infinite;
+}
+.spin-inner { position: relative; z-index: 1; }
+
+.spin-top {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;
+}
+.spin-title {
+  font-family:'Boogaloo',cursive; font-size:18px;
+  background:linear-gradient(90deg,#ff2d78,#bf00ff);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.spin-subtitle {
+  text-align:center; font-size:10.5px; color:#999;
+  font-family:'Righteous',cursive; letter-spacing:1.5px; text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+/* Slot reels */
+.slot-machine {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 14px;
+}
+.slot-reel-wrap {
+  width: 80px; height: 80px;
+  background: #1a0030; border-radius: 14px; overflow: hidden;
+  border: 2.5px solid #ff2d78;
+  box-shadow: 0 0 16px #ff2d7866, inset 0 0 10px #00000066;
+  position: relative;
+  animation: reelBorder 3s ease-in-out infinite alternate;
+}
+.slot-reel-wrap:nth-child(2) { animation-delay: .4s; }
+.slot-reel-wrap:nth-child(3) { animation-delay: .8s; }
+@keyframes reelBorder {
+  0%  { border-color:#ff2d78; box-shadow:0 0 16px #ff2d7866,inset 0 0 10px #00000066; }
+  50% { border-color:#00f5ff; box-shadow:0 0 16px #00f5ff66,inset 0 0 10px #00000066; }
+  100%{ border-color:#ffe600; box-shadow:0 0 16px #ffe60066,inset 0 0 10px #00000066; }
+}
+
+/* Shine overlay on reel */
+.slot-reel-wrap::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.18) 0%, transparent 35%, transparent 65%, rgba(255,255,255,.10) 100%);
+}
+
+.slot-reel {
+  height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 38px; transition: transform .08s linear;
+  position: relative; z-index: 1;
+}
+
+/* Result box */
+#result-box {
+  text-align: center; min-height: 68px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+}
+#result-amount {
+  font-family: 'Boogaloo', cursive;
+  font-size: 42px; line-height: 1;
+  background: linear-gradient(90deg, #ff2d78, #ffe600, #00f5ff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: gradShift 2s ease infinite;
+  filter: drop-shadow(0 0 10px #ff2d7888);
+  transition: all .3s;
+}
+#result-msg {
+  font-size: 12px; color: #888;
+  font-family: 'Righteous', cursive; letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* Spin button */
+#spin-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 11px 0;
+  background: linear-gradient(90deg, #ff2d78, #bf00ff);
+  border: none; border-radius: 100px; cursor: pointer;
+  font-family: 'Righteous', cursive; font-size: 13px;
+  letter-spacing: 2px; color: #fff; text-transform: uppercase;
+  box-shadow: 0 4px 20px #ff2d7866;
+  animation: btnPulse 2s ease-in-out infinite;
+  transition: all .2s; margin-bottom: 8px;
+}
+#spin-btn:hover { transform: scale(1.03); }
+#spin-btn:disabled { opacity: .5; cursor: not-allowed; animation: none; transform: none; }
+@keyframes btnPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.02)} }
+
+.btn-dot { width:6px;height:6px;background:#fff;border-radius:50%;animation:blink 1.5s infinite; }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+#spin-count { text-align:center; font-size:10px; color:#666; font-family:'Righteous',cursive; letter-spacing:1px; }
+#spin-count span { color:#ff2d78; font-size:13px; }
+
+/* Win overlay */
+#win-overlay {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
+}
+#win-overlay.show { display: flex; }
+.win-box {
+  background: linear-gradient(135deg,#1a0030,#0f0020);
+  border: 2.5px solid #ff2d78; border-radius: 28px;
+  padding: 36px 32px; text-align: center; max-width: 320px; width: 90%;
+  box-shadow: 0 0 60px #ff2d7866, 0 0 120px #bf00ff44;
+  animation: winPop .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes winPop { from{transform:scale(.4) rotate(-10deg);opacity:0} to{transform:none;opacity:1} }
+.win-emoji { font-size: 60px; display:block; margin-bottom:12px; animation: bounce 1s ease-in-out infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.win-title { font-family:'Boogaloo',cursive; font-size:22px; color:#fff; margin-bottom:6px; }
+.win-amount {
+  font-family:'Boogaloo',cursive; font-size:60px; line-height:1;
+  background:linear-gradient(90deg,#ff2d78,#ffe600,#00f5ff);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  animation:gradShift 1.5s ease infinite;
+  filter:drop-shadow(0 0 20px #ff2d78);
+  margin-bottom:6px;
+}
+.win-sub { font-size:13px; color:#d0b0ff; font-weight:700; margin-bottom:20px; }
+.win-close {
+  background:linear-gradient(90deg,#ff2d78,#bf00ff); border:none; border-radius:100px;
+  padding:10px 30px; font-family:'Righteous',cursive; font-size:12px; letter-spacing:2px;
+  color:#fff; cursor:pointer; text-transform:uppercase;
+}
+
+.card-footer {
+  background:linear-gradient(90deg,#ff2d7822,#bf00ff22,#00f5ff22);
+  border-top:1px solid #ffffff11; padding:10px; text-align:center;
+  animation: fadeUp .6s 1s both;
+}
+.footer-txt { font-family:'Righteous',cursive; font-size:9px; letter-spacing:3px; color:#666; text-transform:uppercase; }
+
+.float-badge {
+  position:absolute; background:var(--yellow); color:#000;
+  font-family:'Boogaloo',cursive; font-size:11px; padding:5px 10px;
+  border-radius:100px; box-shadow:0 0 20px #ffe600aa;
+  animation: floatBadge 3s ease-in-out infinite; white-space:nowrap; z-index:5;
+}
+.badge-tl { top:-14px; left:10px; animation-delay:0s; }
+.badge-tr { top:-14px; right:10px; animation-delay:.8s; }
+@keyframes floatBadge { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+
+.sparkle { position:fixed; pointer-events:none; z-index:50; font-size:16px; animation:sparklePop .6s ease forwards; }
+@keyframes sparklePop { 0%{transform:scale(0) rotate(0);opacity:1} 60%{transform:scale(1.4) rotate(180deg);opacity:1} 100%{transform:scale(0) rotate(360deg);opacity:0} }
+</style>
+</head>
+<body>
+
+<div id="cursor">⭐</div>
+<div id="rain"></div>
+
+<!-- Win overlay -->
+<div id="win-overlay">
+  <div class="win-box">
+    <span class="win-emoji" id="win-emoji">🤑</span>
+    <div class="win-title">Chị được lì xì!</div>
+    <div class="win-amount" id="win-amount">50k</div>
+    <div class="win-sub" id="win-sub">Chúc chị sinh nhật vui vẻ 🎉</div>
+    <button class="win-close" onclick="closeWin()">Yayyy! 🎊</button>
+  </div>
+</div>
+
+<div class="card-wrap">
+  <div class="float-badge badge-tl">🎉 29/4/2026</div>
+  <div class="float-badge badge-tr">2k10 gang 🔥</div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="hbd-tag">✨ Happy Birthday ✨</div>
+      <div class="main-name">Phương Trang</div>
+      <div class="cake-row">🎂🎈🎊🥳🎁</div>
+    </div>
+
+    <div class="card-body">
+      <div class="date-pill">
+        <div class="date-pill-inner">🗓️ 29 · 04 · 2026 🎉</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-icon">🎂</span>
+          <span class="stat-num">16</span>
+          <span class="stat-label">Tuổi</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-icon">✨</span>
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Slay</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-icon">💛</span>
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Yêu thương</span>
+        </div>
+      </div>
+
+      <div class="wish-box">
+        <div class="wish-text">
+          <span class="hi">Chị ơi!</span> Sinh nhật chị năm nay phải là năm
+          <span class="glow-c">✨ đỉnh nhất ✨</span> luôn nhé!<br>
+          Chúc chị mãi <span class="glow-y">xinh đẹp</span>, vui vẻ,
+          <span class="glow-g">slay không ngừng</span> 💅<br>
+          Ước mơ gì cũng thành hiện thực nha chị
+          <span class="hi">Phương Trang</span> 🫶
+        </div>
+      </div>
+
+      <!-- SLOT MACHINE -->
+      <div class="spin-section">
+        <div class="spin-inner">
+          <div class="spin-top">
+            <div class="spin-title">🎰 Máy quay nhân phẩm!</div>
+            <span style="font-size:18px">💸🤑</span>
+          </div>
+          <div class="spin-subtitle">Chị được lì xì bao nhiêu? 👀</div>
+
+          <div class="slot-machine">
+            <div class="slot-reel-wrap"><div class="slot-reel" id="r1">💸</div></div>
+            <div class="slot-reel-wrap"><div class="slot-reel" id="r2">🤑</div></div>
+            <div class="slot-reel-wrap"><div class="slot-reel" id="r3">💰</div></div>
+          </div>
+
+          <div id="result-box">
+            <div id="result-amount">???</div>
+            <div id="result-msg">Nhấn SPIN để quay 🎰</div>
+          </div>
+
+          <button id="spin-btn" onclick="spin()">
+            <span class="btn-dot"></span>
+            🎰 SPIN · Quay thôi!
+            <span class="btn-dot"></span>
+          </button>
+          <div id="spin-count">Còn <span id="spins-left">3</span> lượt quay 🎫</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card-footer">
+      <div class="footer-txt">🌈 Made with luv · gen z edition · 2026 🌈</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Prizes: amount, emoji, message
+const PRIZES = [
+  { amount: "30k",  emoji: "🥹", msg: "Thôi...30k cũng được nè 😭",           color: "#ff7a00" },
+  { amount: "40k",  emoji: "🙂", msg: "40k mua trà sữa nha chị 🧋",            color: "#ffe600" },
+  { amount: "50k",  emoji: "😏", msg: "50k cũng được lắm rồi đó chị 😏",       color: "#00f5ff" },
+  { amount: "60k",  emoji: "😍", msg: "60k! Chị hên ghê 🍀",                   color: "#00ff88" },
+  { amount: "69k",  emoji: "😂", msg: "69k ICONIC vl 😂💀",                    color: "#ff2d78" },
+  { amount: "80k",  emoji: "🤩", msg: "80k! Nhân phẩm cao đó chị 🏆",          color: "#bf00ff" },
+  { amount: "100k", emoji: "🤑", msg: "100k!! JACKPOT!! Nhân phẩm ĐỈNH 👑🔥",  color: "#ff2d78" },
+];
+
+// Weighted: 30k=25%, 40k=20%, 50k=20%, 60k=12%, 69k=10%, 80k=8%, 100k=5%
+const WEIGHTS = [25, 20, 20, 12, 10, 8, 5];
+
+const REEL_EMOJIS = ['💸','🤑','💰','🎁','💎','🌸','⭐','🔥','👑','🎊'];
+
+let spinsLeft = 3;
+let spinning = false;
+
+function weightedRandom() {
+  const total = WEIGHTS.reduce((a,b)=>a+b,0);
+  let r = Math.random() * total;
+  for (let i=0; i<WEIGHTS.length; i++) {
+    r -= WEIGHTS[i];
+    if (r <= 0) return i;
+  }
+  return PRIZES.length - 1;
+}
+
+function spin() {
+  if (spinning || spinsLeft <= 0) return;
+  spinning = true;
+  document.getElementById('spin-btn').disabled = true;
+
+  const prizeIdx = weightedRandom();
+  const prize = PRIZES[prizeIdx];
+
+  document.getElementById('result-amount').textContent = '...';
+  document.getElementById('result-msg').textContent = '🎰 Đang quay...';
+
+  // Spin reels
+  const reels = ['r1','r2','r3'];
+  let intervals = reels.map((id, i) => {
+    let t = 0;
+    return setInterval(() => {
+      document.getElementById(id).textContent =
+        REEL_EMOJIS[Math.floor(Math.random() * REEL_EMOJIS.length)];
+      t++;
+    }, 60);
+  });
+
+  // Stop reels one by one
+  const stopTimes = [900, 1300, 1700];
+  const finalEmojis = [prize.emoji, '💰', prize.emoji];
+
+  stopTimes.forEach((delay, i) => {
+    setTimeout(() => {
+      clearInterval(intervals[i]);
+      document.getElementById(reels[i]).textContent = finalEmojis[i];
+    }, delay);
+  });
+
+  // Show result
+  setTimeout(() => {
+    spinning = false;
+    spinsLeft--;
+    document.getElementById('spins-left').textContent = spinsLeft;
+
+    document.getElementById('result-amount').textContent = prize.amount + ' 🎉';
+    document.getElementById('result-msg').textContent = prize.msg;
+
+    // Show win overlay
+    document.getElementById('win-emoji').textContent = prize.emoji;
+    document.getElementById('win-amount').textContent = prize.amount;
+    document.getElementById('win-sub').textContent = prize.msg;
+    document.getElementById('win-amount').style.color = prize.color;
+    document.getElementById('win-overlay').classList.add('show');
+
+    launchConfetti();
+
+    if (spinsLeft > 0) {
+      document.getElementById('spin-btn').disabled = false;
+    } else {
+      document.getElementById('spin-btn').textContent = '🎫 Hết lượt rồi nha chị!';
+      document.getElementById('spin-btn').style.background = '#333';
+      document.getElementById('spin-btn').style.animation = 'none';
+    }
+  }, 2000);
+}
+
+function closeWin() {
+  document.getElementById('win-overlay').classList.remove('show');
+}
+
+// Cursor
+document.addEventListener('mousemove', e => {
+  const c = document.getElementById('cursor');
+  c.style.left = e.clientX + 'px';
+  c.style.top  = e.clientY + 'px';
+});
+
+// Sparkle on click
+document.addEventListener('click', e => {
+  const emojis = ['⭐','✨','💖','🎉','🌸','💫','🎊','💛','💸'];
+  for (let i=0; i<5; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left = (e.clientX + (Math.random()-.5)*60) + 'px';
+    s.style.top  = (e.clientY + (Math.random()-.5)*60) + 'px';
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(), 600);
+  }
+});
+
+// Emoji rain
+const rainEmojis=['🎂','🎈','🎉','🥳','✨','💖','🌸','🎁','💫','🔥','💅','👑','💸','🤑'];
+const rain = document.getElementById('rain');
+for(let i=0;i<24;i++){
+  const d=document.createElement('div');
+  d.className='raindrop';
+  d.textContent=rainEmojis[Math.floor(Math.random()*rainEmojis.length)];
+  d.style.left=Math.random()*100+'%';
+  d.style.fontSize=(12+Math.random()*16)+'px';
+  d.style.animationDuration=(5+Math.random()*8)+'s';
+  d.style.animationDelay=(Math.random()*8)+'s';
+  rain.appendChild(d);
+}
+
+// Confetti
+function launchConfetti() {
+  const canvas=document.createElement('canvas');
+  canvas.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:9998;';
+  document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  const colors=['#ff2d78','#00f5ff','#ffe600','#bf00ff','#00ff88','#ff7a00','#fff'];
+  const pieces=Array.from({length:160},()=>({
+    x:Math.random()*canvas.width, y:-20-Math.random()*200,
+    r:2+Math.random()*5,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    vx:-5+Math.random()*10, vy:3+Math.random()*6,
+    alpha:1, angle:Math.random()*Math.PI*2, spin:(Math.random()-.5)*.25,
+    shape:['circle','rect','tri'][Math.floor(Math.random()*3)],
+  }));
+  let t=0;
+  function tick(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.y+=p.vy; p.x+=p.vx; p.angle+=p.spin;
+      if(p.y>canvas.height+20) p.alpha-=.03;
+      ctx.save();
+      ctx.globalAlpha=Math.max(0,p.alpha);
+      ctx.fillStyle=p.color;
+      ctx.shadowColor=p.color; ctx.shadowBlur=6;
+      ctx.translate(p.x,p.y); ctx.rotate(p.angle);
+      if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();}
+      else if(p.shape==='rect'){ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);}
+      else{ctx.beginPath();ctx.moveTo(0,-p.r);ctx.lineTo(p.r,p.r);ctx.lineTo(-p.r,p.r);ctx.closePath();ctx.fill();}
+      ctx.restore();
+    });
+    t++;
+    if(t<220) requestAnimationFrame(tick);
+    else{ctx.clearRect(0,0,canvas.width,canvas.height);canvas.remove();}
+  }
+  setTimeout(tick,200);
+}
+</script>
+</body>
+</html>
