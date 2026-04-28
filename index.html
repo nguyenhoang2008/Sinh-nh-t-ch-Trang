@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBD Phương Trang 🎉</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  background:#0a0010;
+  color:#fff;
+  font-family:sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  overflow:hidden;
+}
+
+.box{
+  background:#1a0030;
+  padding:20px;
+  border-radius:20px;
+  text-align:center;
+  width:300px;
+  z-index:2;
+}
+
+#money{
+  font-size:42px;
+  color:#ff2d78;
+  margin:10px 0;
+}
+
+button{
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#ff2d78;
+  color:#fff;
+  width:100%;
+  margin-top:8px;
+  cursor:pointer;
+}
+
+/* popup */
+#popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+
+.popup-box{
+  background:#1a0030;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  animation:pop .4s ease;
+}
+
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* confetti */
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>🎉 Lì xì sinh nhật 🎉</h2>
+
+  <div id="money">???</div>
+  <div id="qr"></div>
+
+  <button onclick="roll()">🎰 Quay tiền</button>
+</div>
+
+<div id="popup">
+  <div class="popup-box">
+    <h2 id="popup-money"></h2>
+    <button onclick="closePop()">OK 😆</button>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+const EMAIL = "youremail@gmail.com"; // đổi email
+const BANK = "MB Bank";
+const STK = "0123456789";
+
+const BIN = {
+  "MB Bank":"970422","Vietcombank":"970436","Techcombank":"970407"
+};
+
+let currentMoney = 0;
+
+// âm thanh
+const audio = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+
+function roll(){
+  currentMoney = Math.floor(Math.random()*(100000-30000+1))+30000;
+
+  document.getElementById("money").innerText =
+    currentMoney.toLocaleString()+"đ 💸";
+
+  // tạo QR
+  document.getElementById("qr").innerHTML="";
+  new QRCode(document.getElementById("qr"),{
+    text:`https://img.vietqr.io/image/${BIN[BANK]}-${STK}-compact2.png?amount=${currentMoney}`,
+    width:120,
+    height:120
+  });
+
+  // popup
+  document.getElementById("popup-money").innerText =
+    "🎉 "+currentMoney.toLocaleString()+"đ 🎉";
+
+  document.getElementById("popup").style.display="flex";
+
+  // âm thanh
+  audio.play();
+
+  // confetti
+  launch();
+
+  // auto mở mail
+  setTimeout(()=>{
+    window.location.href =
+      `mailto:${EMAIL}?subject=Li xi&body=Tui vua trung ${currentMoney}đ 😆`;
+  },1500);
+}
+
+function closePop(){
+  document.getElementById("popup").style.display="none";
+}
+
+// confetti
+function launch(){
+  const canvas=document.getElementById("confetti");
+  const ctx=canvas.getContext("2d");
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+
+  const pieces=Array.from({length:100},()=>({
+    x:Math.random()*canvas.width,
+    y:-20,
+    r:4+Math.random()*4,
+    vx:-3+Math.random()*6,
+    vy:3+Math.random()*5
+  }));
+
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.x+=p.vx;
+      p.y+=p.vy;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle="hsl("+Math.random()*360+",100%,50%)";
+      ctx.fill();
+    });
+    t++;
+    if(t<100) requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+
+</body>
+</html>
